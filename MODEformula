@@ -1,9 +1,9 @@
 Mode = 
-VAR FilteredData = //Filter the data so that periods for both values are covered.
+VAR FilteredData = //Filter the data so that we get the values for that period only
         FILTER(
         FactTable,
-        FactTable[StartDate] >= MIN('Period1'[DateDim]) &&
-        FactTable[ToDate] <= MAX('Period1'[DateDim]) &
+        FactTable[StartDate] >= MIN('Period'[DateDim]) &&
+        FactTable[ToDate] <= MAX('Period'[DateDim]) &
     )
 VAR FrequencyTable = SUMMARIZE( //Create a separate summarized table to calculate MODE
     FilteredData,
