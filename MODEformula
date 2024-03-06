@@ -1,4 +1,4 @@
-ModeAmount = 
+Mode = 
 VAR FilteredData = //Filter the data so that periods for both prices are covered.
         FILTER(
         FactTable,
