@@ -1,0 +1,17 @@
+ModeAmount = 
+VAR FilteredData = //Filter the data so that periods for both prices are covered.
+        FILTER(
+        FactTable,
+        FactTable[StartDate] >= MIN('Period1'[DateDim1]) &&
+        FactTable[ToDate] <= MAX('Period1'[DateDim1]) &&
+        FactTable[ToDate] >= MIN('Period2'[DateDim2]) &&
+        FactTable[StartDate] <= MAX('Period2'[DateDim2])
+    )
+VAR FrequencyTable = SUMMARIZE( //Create a separate summarized table to calculate MODE
+    FilteredData,
+    FactTable[ValueColumn],
+    "Frequency", COUNTA(FactTable[ValueColumn]) //Count all unique values and name them "Frequency" in the created column. The density number of all values is in the column. For example, if the price 10.50 exists 100 times, then the "ValueColumn" column has 10.50 and in the "Frequency" column there is 100.
+)
+VAR MaxFrequency = MAXX(FrequencyTable, [Frequency]) //Take the most frequently occurring value from the created interim table.
+VAR ModeRows = FILTER(FrequencyTable, [Frequency] = MaxFrequency) //Filter the interim table so that the most frequently occurring value (MODE) is outputted.
+RETURN MAXX(ModeRows, [ValueColumn]) //Show the user the most frequently occurring value, i.e., MODE
