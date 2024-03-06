@@ -4,8 +4,8 @@ VAR FilteredData = //Filter the data so that periods for both prices are covered
         FactTable,
         FactTable[StartDate] >= MIN('Period1'[DateDim1]) &&
         FactTable[ToDate] <= MAX('Period1'[DateDim1]) &&
-        FactTable[ToDate] >= MIN('Period2'[DateDim2]) &&
-        FactTable[StartDate] <= MAX('Period2'[DateDim2])
+        FactTable[ToDate2] >= MIN('Period2'[DateDim2]) &&
+        FactTable[StartDate2] <= MAX('Period2'[DateDim2])
     )
 VAR FrequencyTable = SUMMARIZE( //Create a separate summarized table to calculate MODE
     FilteredData,
